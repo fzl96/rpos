@@ -1,3 +1,5 @@
+import { FiImage } from "react-icons/fi";
+
 interface MenuCardProps {
   name: string;
   price: number;
@@ -9,11 +11,18 @@ const MenuCard = ({ name, price, description, image }: MenuCardProps) => {
   return (
     <>
       <div className="md:max-w-xs bg-white rounded-lg border border-gray-200 shadow-md ">
-        <img
-          className="rounded-t-lg h-[10rem] w-full object-cover"
-          src={image}
-          alt={name}
-        />
+        {image ? (
+          <img
+            className="rounded-t-lg h-[10rem] w-full object-cover"
+            src={image}
+            alt={name}
+          />
+        ) : (
+          <div className="w-full h-[10rem] flex flex-col items-center justify-center text-5xl">
+            <FiImage />
+            {/* <span className="text-sm">No image</span> */}
+          </div>
+        )}
         <div className="p-5">
           <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 ">
             {name}
