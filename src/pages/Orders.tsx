@@ -1,6 +1,7 @@
 import OrdersCard from "@/components/orders-cards";
 import AddButton from "@/components/ui/add-btn";
 import PageTitle from "@/components/ui/page-title";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -65,49 +66,53 @@ const Orders = () => {
 
   return (
     <>
-      <PageTitle title="Orders" />
-      <div className="flex flex-col gap-5 ">
-        <OrdersCard />
-      </div>
-      <div className="bg-[#fafbfb] p-5 rounded-2xl shadow-lg mt-5">
-        <table className="w-full">
-          <thead>
-            <tr className="">
-              <th className="p-3 text-sm font-bold tracking-wide text-left">
-                ID
-              </th>
-              <th className="p-3 text-sm font-bold tracking-wide text-left">
-                No.
-              </th>
-              <th className="p-3 text-sm font-bold tracking-wide text-left">
-                Date
-              </th>
-              <th className="p-3 text-sm font-bold tracking-wide text-left">
-                Time
-              </th>
-              <th className="p-3 text-sm font-bold tracking-wide text-left">
-                Total
-              </th>
-              {/* <th className="p-3 text-sm font-bold tracking-wide text-left">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <PageTitle title="Orders" />
+        <div className="flex flex-col gap-5 ">
+          <OrdersCard />
+        </div>
+        <div className="bg-[#fafbfb] p-5 rounded-2xl shadow-lg mt-5">
+          <table className="w-full">
+            <thead>
+              <tr className="">
+                <th className="p-3 text-sm font-bold tracking-wide text-left">
+                  ID
+                </th>
+                <th className="p-3 text-sm font-bold tracking-wide text-left">
+                  No.
+                </th>
+                <th className="p-3 text-sm font-bold tracking-wide text-left">
+                  Date
+                </th>
+                <th className="p-3 text-sm font-bold tracking-wide text-left">
+                  Time
+                </th>
+                <th className="p-3 text-sm font-bold tracking-wide text-left">
+                  Total
+                </th>
+                {/* <th className="p-3 text-sm font-bold tracking-wide text-left">
                 Status
               </th> */}
-            </tr>
-          </thead>
-          <tbody className="">
-            {TableData.map((item, index) => (
-              <tr
-                className=" border-[#e5e7eb] cursor-pointer rounded-lg hover:bg-[#f3f4f6]"
-                onClick={() => console.log("test")}
-                key={item.id}
-              >
-                <td className="p-3 text-sm text-gray-700">{item.id}</td>
-                <td className="p-3 text-sm text-gray-700">
-                  {item.tableNumber}
-                </td>
-                <td className="p-3 text-sm text-gray-700">{item.date}</td>
-                <td className="p-3 text-sm text-gray-700">{item.time}</td>
-                <td className="p-3 text-sm text-gray-700">{item.total}</td>
-                {/* <td className="p-3 text-sm">
+              </tr>
+            </thead>
+            <tbody>
+              {TableData.map((item, index) => (
+                <tr
+                  className=" border-[#e5e7eb] cursor-pointer rounded-lg hover:bg-[#f3f4f6]"
+                  onClick={() => console.log("test")}
+                  key={item.id}
+                >
+                  <td className="p-3 text-sm text-gray-700">{item.id}</td>
+                  <td className="p-3 text-sm text-gray-700">
+                    {item.tableNumber}
+                  </td>
+                  <td className="p-3 text-sm text-gray-700">{item.date}</td>
+                  <td className="p-3 text-sm text-gray-700">{item.time}</td>
+                  <td className="p-3 text-sm text-gray-700">{item.total}</td>
+                  {/* <td className="p-3 text-sm">
                   <span
                     className={`text-white py-1 px-2 rounded-md ${
                       item.status === "Completed"
@@ -118,11 +123,12 @@ const Orders = () => {
                     {item.status}
                   </span>
                 </td> */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.div>
       <AddButton toolTipTitle="Add Order" navigateTo="/orders/new" />
     </>
   );

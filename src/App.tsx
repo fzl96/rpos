@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { MenuProvider } from "./context/MenuContext";
@@ -18,17 +19,22 @@ function App() {
       <AuthProvider>
         <MenuProvider>
           <OrderProvider>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/menus" element={<Menus />} />
-                <Route path="/menus/add" element={<MenusNew />} />
-                <Route path="/orders/new" element={<OrderNew />} />
-                <Route path="/orders/new/checkout" element={<OrderSummary />} />
-              </Route>
-              <Route path="/login" element={<Login />} />
-            </Routes>
+            <AnimatePresence>
+              <Routes location={location} key={location.pathname}>
+                <Route element={<Layout />}>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/menus" element={<Menus />} />
+                  <Route path="/menus/add" element={<MenusNew />} />
+                  <Route path="/orders/new" element={<OrderNew />} />
+                  <Route
+                    path="/orders/new/checkout"
+                    element={<OrderSummary />}
+                  />
+                </Route>
+                <Route path="/login" element={<Login />} />
+              </Routes>
+            </AnimatePresence>
           </OrderProvider>
         </MenuProvider>
       </AuthProvider>

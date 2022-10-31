@@ -13,6 +13,7 @@ export interface NavItem {
   title: string;
   icon: any;
   path: string;
+  end: boolean;
 }
 
 export const sidebarItem: NavItem[] = [
@@ -20,16 +21,19 @@ export const sidebarItem: NavItem[] = [
     title: "Dashboard",
     icon: <MdSpaceDashboard />,
     path: "/",
+    end: true,
   },
   {
     title: "Orders",
     icon: <MdShoppingCart />,
     path: "/orders",
+    end: false,
   },
   {
     title: "Menus",
     icon: <MdLocalDining />,
     path: "/menus",
+    end: false,
   },
 ];
 
@@ -58,14 +62,15 @@ const SidebarNav = () => {
             key={index}
             className="mb-2 text-[#5f6368]"
             whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
           >
             <NavLink
               to={item.path}
-              className={
-                navLinkClass +
-                (pathname === item.path
-                  ? " bg-[#111827] rounded-xl text-white"
-                  : " hover:bg-[#F3F4F6] hover:text-[black]")
+              end={item.end}
+              className={({ isActive }) =>
+                isActive
+                  ? navLinkClass + "bg-[#111827] text-white"
+                  : navLinkClass + "hover:bg-gray-100"
               }
             >
               <span className="text-xl">{item.icon}</span>

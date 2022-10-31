@@ -1,4 +1,5 @@
 import CartItem from "@/components/ui/cart-item";
+import { motion } from "framer-motion";
 import { useMenu } from "../context/MenuContext";
 import { useOrder } from "../context/OrderContext";
 
@@ -16,7 +17,11 @@ const OrderSummary = () => {
 
   return (
     <>
-      <div className="grid md:grid-cols-2 grid-cols-1">
+      <motion.div
+        className="grid md:grid-cols-2 grid-cols-1"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+      >
         <div className="flex flex-col md:pr-20">
           <div className="flex flex-col">
             <h2 className="text-2xl font-semibold">Order Summary</h2>
@@ -102,7 +107,7 @@ const OrderSummary = () => {
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

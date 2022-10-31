@@ -1,4 +1,5 @@
 import { Tab } from "@headlessui/react";
+import { motion } from "framer-motion";
 import { useMenu } from "../context/MenuContext";
 import MenuCard from "./ui/menus-card";
 
@@ -34,9 +35,20 @@ const Tabs = () => {
         </Tab.List>
         <Tab.Panels className="mt-3">
           <Tab.Panel className="grid md:grid-cols-3 grid-cols-2 gap-4">
-            {loading
-              ? <></>
-              : menu.map((food: any) => <MenuCard key={food.id} {...food} />)}
+            {loading ? (
+              <></>
+            ) : (
+              menu.map((food: any, i: number) => (
+                <motion.div
+                  key={food.id}
+                  initial={{ opacity: 0, translateX: -50 }}
+                  animate={{ opacity: 1, translateX: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.1 }}
+                >
+                  <MenuCard {...food} />
+                </motion.div>
+              ))
+            )}
           </Tab.Panel>
           <Tab.Panel></Tab.Panel>
         </Tab.Panels>
