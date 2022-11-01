@@ -96,50 +96,6 @@ export const MenuProvider = ({ children }: Props) => {
         reject(error);
       }
     });
-
-    // // if file not exist, return
-    // if (!menu.file) return;
-    // // set add loading to true
-    // setAddLoading(true);
-    // // create a reference to the storage location
-    // const storageRef = ref(storage, `menu/${menu.file.name}`);
-    // // upload the file to the storage location
-    // const uploadTask = uploadBytesResumable(storageRef, menu.file);
-    // // listen to the upload task
-    // uploadTask.on(
-    //   "state_changed",
-    //   (snapshot) => {
-    //     // get the progress of the upload
-    //     const progress =
-    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     console.log("Upload is " + progress + "% done");
-    //   },
-    //   (error) => {
-    //     // handle error
-    //     console.log(error);
-    //   },
-    //   () => {
-    //     // get the download url
-    //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //       // add the menu to the database
-    //       addDoc(collection(db, "menu"), {
-    //         name: menu.name,
-    //         price: menu.price,
-    //         description: menu.description,
-    //         image: downloadURL,
-    //         type: menu.type,
-    //       })
-    //         .then(() => {
-    //           // set add loading to false
-    //           setAddLoading(false);
-    //         })
-    //         .catch((error) => {
-    //           // handle error
-    //           console.log(error);
-    //         });
-    //     });
-    //   }
-    // );
   };
 
   useEffect(() => {
