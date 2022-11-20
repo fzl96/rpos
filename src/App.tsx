@@ -8,8 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Menus from "./pages/Menus";
 import MenusNew from "./pages/Menus-new";
+import OrderCheckout from "./pages/Order-checkout";
 import OrderNew from "./pages/Order-new";
-import OrderSummary from "./pages/Order-summary";
 import Orders from "./pages/Orders";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
                   <Route path="/orders/new" element={<OrderNew />} />
                   <Route
                     path="/orders/new/checkout"
-                    element={<OrderSummary />}
+                    element={<OrderCheckout />}
                   />
                 </Route>
                 <Route path="/login" element={<Login />} />

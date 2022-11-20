@@ -39,7 +39,7 @@ const CartItem = ({
               <motion.button
                 className="text-sm font-semibold h-8 w-8 border rounded-xl text-green-700 border-green-700"
                 onClick={() => removeFromCart(id)}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.9, backgroundColor: "#15803d" }}
                 whileHover={{ scale: 1.1 }}
               >
                 —
@@ -48,7 +48,7 @@ const CartItem = ({
               <motion.button
                 className="text-lg text-center font-bold h-8 w-8 border rounded-xl text-green-700 border-green-700"
                 onClick={() => addToCart(id)}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.9, backgroundColor: "#15803d" }}
                 whileHover={{ scale: 1.1 }}
               >
                 +

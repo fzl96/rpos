@@ -1,4 +1,6 @@
+import { addDoc, collection } from "firebase/firestore";
 import { createContext, useContext, useState } from "react";
+import { db } from "../config/firebase";
 
 export type OrderItem = {
   id: string;
@@ -13,6 +15,7 @@ type OrderContextType = {
   addToCart: (id: string) => void;
   removeFromCart: (id: string) => void;
   isItemInCart: (id: string) => boolean;
+  addOrder: (order: any) => void;
 };
 
 // create order context
@@ -23,11 +26,27 @@ const OrderContext = createContext<OrderContextType>({
   addToCart: () => {},
   removeFromCart: () => {},
   isItemInCart: () => false,
+  addOrder: async () => {},
 });
 
 // create type for children
 type Props = {
   children: React.ReactNode;
+};
+
+type orderItems = {
+  id: string;
+  quantity: number;
+};
+
+type OrderType = {
+  type: string;
+  table: number;
+  cash: number;
+  change: number;
+  items: orderItems[];
+  total: number;
+  date: Date;
 };
 
 export const OrderProvider = ({ children }: Props) => {
@@ -78,9 +97,31 @@ export const OrderProvider = ({ children }: Props) => {
     }
   };
 
+  const addOrder = async (order: OrderType) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // add order to firebase
+        await addDoc(collection(db, "orders"), order);
+        // clear cart
+        setCart([]);
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   return (
     <OrderContext.Provider
-      value={{ cart, addToCart, removeFromCart, isItemInCart, orders, loading }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        isItemInCart,
+        orders,
+        loading,
+        addOrder,
+      }}
     >
       {children}
     </OrderContext.Provider>

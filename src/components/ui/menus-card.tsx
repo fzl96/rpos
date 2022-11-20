@@ -1,5 +1,5 @@
 import { FiImage } from "react-icons/fi";
-
+import BasicMenu from "../menu";
 interface MenuCardProps {
   name: string;
   price: number;
@@ -30,8 +30,9 @@ const MenuCard = ({ name, price, description, image }: MenuCardProps) => {
           <p className="mb-3 font-normal text-sm text-gray-700">
             {description}
           </p>
-          <p>
-            <span className="font-bold text-lg text-gray-900">${price}</span>
+          <p className="flex justify-between items-center">
+            <span className="font-bold text-lg text-gray-900">Rp {price}K</span>
+            <BasicMenu />
           </p>
         </div>
       </div>
