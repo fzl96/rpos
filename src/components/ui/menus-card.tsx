@@ -1,13 +1,14 @@
 import { FiImage } from "react-icons/fi";
 import BasicMenu from "../menu";
 interface MenuCardProps {
+  id?: string;
   name: string;
   price: number;
   description: string;
   image: string;
 }
 
-const MenuCard = ({ name, price, description, image }: MenuCardProps) => {
+const MenuCard = ({ id, name, price, description, image }: MenuCardProps) => {
   return (
     <>
       <div className="md:max-w-xs bg-white rounded-lg border border-gray-200 shadow-md ">
@@ -32,7 +33,7 @@ const MenuCard = ({ name, price, description, image }: MenuCardProps) => {
           </p>
           <p className="flex justify-between items-center">
             <span className="font-bold text-lg text-gray-900">Rp {price}K</span>
-            <BasicMenu />
+            <BasicMenu id={id} />
           </p>
         </div>
       </div>

@@ -1,14 +1,14 @@
+import { useMenu } from "@/context/MenuContext";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-const options = ["None", "Atria", "Callisto", "Dione"];
-
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu() {
+export default function LongMenu({ id }: { id?: string }) {
+  const { deleteMenu } = useMenu();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -17,9 +17,18 @@ export default function LongMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleDelete = () => {
+    // confirm
+    if (confirm("Are you sure you want to delete this menu?") && id) {
+      deleteMenu(id);
+      setAnchorEl(null);
+    }
+    setAnchorEl(null);
+    return;
+  };
 
   return (
-    <div>
+    <>
       <IconButton
         aria-label="more"
         id="long-button"
@@ -49,16 +58,8 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem
-            key={option}
-            selected={option === "Pyxis"}
-            onClick={handleClose}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }

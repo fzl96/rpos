@@ -21,7 +21,7 @@ const MenusNew = () => {
 
   const [item, setItem] = useState({
     name: "Add a name",
-    price: price,
+    price: 0,
     description: "Add a description",
     image: image,
     file: file,
@@ -153,11 +153,12 @@ const MenusNew = () => {
                 placeholder="Price"
                 min={1}
                 onChange={(e) =>
-                  setPrice(
-                    isNaN(parseInt(e.target.value))
+                  setItem({
+                    ...item,
+                    price: isNaN(parseInt(e.target.value))
                       ? 0
-                      : parseInt(e.target.value)
-                  )
+                      : parseInt(e.target.value),
+                  })
                 }
               />
               <label htmlFor="type" className="font-semibold">

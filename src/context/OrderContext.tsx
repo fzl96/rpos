@@ -1,5 +1,5 @@
-import { addDoc, collection } from "firebase/firestore";
-import { createContext, useContext, useState } from "react";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../config/firebase";
 
 export type OrderItem = {
@@ -39,7 +39,7 @@ type orderItems = {
   quantity: number;
 };
 
-type OrderType = {
+export type OrderType = {
   type: string;
   table: number;
   cash: number;
@@ -51,7 +51,7 @@ type OrderType = {
 
 export const OrderProvider = ({ children }: Props) => {
   const [cart, setCart] = useState<OrderItem[]>([]);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<orderItems[]>([]);
   const [loading, setLoading] = useState(true);
 
   // create a function that checks if the item is already in the cart
@@ -110,6 +110,24 @@ export const OrderProvider = ({ children }: Props) => {
       }
     });
   };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "orders"), (snapshot) => {
+      const orders: any = [];
+      snapshot.forEach((doc) => {
+        orders.push({
+          ...doc.data(),
+          id: doc.id,
+          date: doc.data().date.toDate(),
+        });
+      });
+      // sort orders from newest to oldest
+      orders.sort((a: any, b: any) => b.date - a.date);
+      setOrders(orders);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <OrderContext.Provider

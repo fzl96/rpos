@@ -1,4 +1,10 @@
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db, storage } from "../config/firebase";
 // import necessary firebase storage modules
@@ -17,6 +23,7 @@ interface MenuContextType {
   loading: boolean;
   addLoading: boolean;
   addMenu: (menu: MenuProps) => void;
+  deleteMenu: (id: string) => void;
 }
 
 export interface MenuType {
@@ -32,7 +39,8 @@ const MenuContext = createContext<MenuContextType>({
   menu: null,
   loading: true,
   addLoading: false,
-  addMenu: async () => {},
+  addMenu: () => {},
+  deleteMenu: async () => {},
 });
 
 // create type for children
@@ -98,6 +106,14 @@ export const MenuProvider = ({ children }: Props) => {
     });
   };
 
+  const deleteMenu = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "menu", id));
+    } catch (error) {
+      console.error("Error removing document: ", error);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "menu"), (snapshot) => {
       const menu: any = [];
@@ -111,7 +127,9 @@ export const MenuProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <MenuContext.Provider value={{ menu, loading, addMenu, addLoading }}>
+    <MenuContext.Provider
+      value={{ menu, loading, addMenu, deleteMenu, addLoading }}
+    >
       {children}
     </MenuContext.Provider>
   );

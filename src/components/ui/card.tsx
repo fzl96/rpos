@@ -3,7 +3,7 @@ interface CardProps {
   subtitle: string;
   icon: any;
   background: string;
-  value: string | number;
+  value: number;
 }
 
 const Card = ({ title, subtitle, icon, background, value }: CardProps) => {
@@ -20,7 +20,14 @@ const Card = ({ title, subtitle, icon, background, value }: CardProps) => {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-xl">{value}</h1>
+          <h1 className="font-bold text-xl">
+            {title === "Sales"
+              ? new Intl.NumberFormat("en-us", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(value)
+              : value}
+          </h1>
           <div className="flex items-center justify-center w-8 h-8 rounded-md"></div>
         </div>
       </div>
