@@ -23,19 +23,18 @@ const CartItem = ({
     <>
       <div className="flex items-center gap-5">
         <img
-          className="h-20 w-[7rem] border rounded-lg object-cover"
+          className="h-20 min-w-[7rem] w-[7rem] border rounded-lg object-cover"
           src={image}
         />
         <div className="flex flex-col w-full gap-2">
           <h1 className="text-xl font-semibold">{name}</h1>
-          <div className="flex justify-between">
+          <div className="flex md:flex-row flex-col md:gap-0 gap-2 justify-between">
             <p className="font-semibold">
-              {new Intl.NumberFormat("id-ID", {
+              {(quantity * price).toLocaleString("id-ID", {
                 style: "currency",
                 currency: "IDR",
-              }).format(quantity * price)}
+              })}
             </p>
-
             <motion.div
               className="flex items-center gap-2"
               initial={{ x: -50, opacity: 0 }}

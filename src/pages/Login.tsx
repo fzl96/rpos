@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 import { useAuth } from "../context/AuthContext";
-import PulseLoader from 'react-spinners/PulseLoader';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -72,7 +72,7 @@ const Login = () => {
             type="submit"
             className={`bg-[#111827] text-white text-lg font-semibold outline-none px-10 py-4 rounded-xl`}
           >
-            {loginLoading ? <PulseLoader color="white"/> : "Sign In"}
+            {loginLoading ? <PulseLoader color="white" /> : "Sign In"}
           </button>
           <p className="text-center text-base text-red-500">
             {error && "Invalid email/password"}

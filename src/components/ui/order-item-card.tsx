@@ -36,10 +36,10 @@ const OrderItemCard = ({
           </div>
           <div className="flex md:flex-col md:gap-4 justify-between items-center">
             <p className="font-bold text-base text-gray-900">
-              {new Intl.NumberFormat("id-ID", {
+              {price.toLocaleString("id-ID", {
                 style: "currency",
                 currency: "IDR",
-              }).format(price)}
+              })}
             </p>
             <AnimatePresence>
               {isItemInCart(id) ? (

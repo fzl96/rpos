@@ -31,7 +31,7 @@ const OrderNew = () => {
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
       >
-        <h1 className="text-2xl font-semibold">Select items</h1>
+        <h1 className="text-2xl font-semibold">Pilih item</h1>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 md:col-span-1 col-span-full grid-cols-1 gap-5 mt-5 pb-20">
           {loading ? (
             <></>
@@ -45,7 +45,7 @@ const OrderNew = () => {
           {cart.length !== 0 ? (
             <motion.div
               key="cart"
-              className="bg-green-700 py-3 px-6 rounded-3xl shadow-lg fixed bottom-10 md:left-[50%] left-[50%] text-white w-[30rem] "
+              className="bg-green-700 py-3 px-6 rounded-3xl shadow-lg fixed bottom-10 md:left-[50%] text-white md:w-[30rem] w-[21.5rem]"
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 100, opacity: 0 }}
@@ -54,7 +54,10 @@ const OrderNew = () => {
                 <div className="flex justify-between">
                   <p>{getTotalQuantity()} items</p>
                   <p className="flex items-center gap-2 text-lg">
-                    ${getTotalPrice()}
+                    {getTotalPrice().toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                     <span>
                       <BsFillHandbagFill />
                     </span>

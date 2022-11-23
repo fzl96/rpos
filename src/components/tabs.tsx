@@ -23,8 +23,6 @@ const Tabs = () => {
     [menu]
   );
 
-  console.log(menu);
-
   return (
     <>
       <Tab.Group>
@@ -63,7 +61,7 @@ const Tabs = () => {
               ))
             )}
           </Tab.Panel>
-          <Tab.Panel>
+          <Tab.Panel className="grid md:grid-cols-3 grid-cols-2 gap-4">
             {loading ? (
               <></>
             ) : (

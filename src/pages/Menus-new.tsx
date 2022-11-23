@@ -43,8 +43,6 @@ const MenusNew = () => {
     });
   }, [selected.name]);
 
-  console.log(selected.name);
-
   const onDrop = useCallback((acceptedFiles: any) => {
     // const file = acceptedFiles[0];
     if (acceptedFiles[0]) {
@@ -77,14 +75,14 @@ const MenusNew = () => {
   return (
     <>
       <motion.div
-        className="grid md:grid-cols-2 grid-cols-1 min-h-full gap-2 mt-10"
+        className="grid md:grid-cols-2 grid-cols-1 min-h-full md:gap-2 gap-5 md:mt-10"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <div className="flex flex-col md:gap-5 border-r md:max-w-sm">
           <div className="flex flex-col md:max-w-xs ">
             <h1 className="text-2xl font-bold">Preview Item</h1>
-            <p className="text-gray-500">
+            <p className="text-gray-500 mb-5">
               Tampilan dibawah merupakan tampilan preview dari menu
             </p>
           </div>

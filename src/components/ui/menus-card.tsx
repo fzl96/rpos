@@ -33,10 +33,10 @@ const MenuCard = ({ id, name, price, description, image }: MenuCardProps) => {
           </p>
           <p className="flex justify-between items-center">
             <span className="font-bold text-lg text-gray-900">
-              {new Intl.NumberFormat("id-ID", {
+              {price.toLocaleString("id-ID", {
                 style: "currency",
                 currency: "IDR",
-              }).format(price)}
+              })}
             </span>
             <BasicMenu id={id} />
           </p>
