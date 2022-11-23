@@ -2,20 +2,21 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 200 },
-  { field: "type", headerName: "Type", width: 100 },
+  { field: "id", headerName: "ID Pesanan", width: 200 },
+  { field: "type", headerName: "Tipe", width: 100 },
   {
     field: "table",
-    headerName: "Table Number",
+    headerName: "Nomor Meja",
     type: "number",
-    width: 130,
+    width: 100,
   },
-  { field: "date", headerName: "Date", width: 200 },
+  { field: "date", headerName: "Tanggal", width: 100 },
+  { field: "time", headerName: "Jam", width: 70 },
   {
     field: "total",
     headerName: "Total",
     type: "number",
-    width: 90,
+    width: 150,
   },
 ];
 
@@ -24,6 +25,7 @@ interface RowsType {
   type: string;
   table: number;
   date: Date;
+  time: Date;
   total: number;
 }
 
@@ -35,10 +37,11 @@ export default function Table({ rows }: { rows: RowsType[] }) {
           className="border-none"
           rows={rows.map((row) => ({
             ...row,
+            time: format(new Date(row.date), "HH:mm"),
             date: format(new Date(row.date), "dd/MM/yyyy"),
-            total: new Intl.NumberFormat("en-US", {
+            total: new Intl.NumberFormat("id-ID", {
               style: "currency",
-              currency: "USD",
+              currency: "IDR",
             }).format(row.total),
           }))}
           columns={columns}

@@ -123,7 +123,6 @@ export const MenuProvider = ({ children }: Props) => {
       setMenu(menu);
       setLoading(false);
     });
-    return unsubscribe;
   }, []);
 
   return (

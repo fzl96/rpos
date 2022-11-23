@@ -30,12 +30,17 @@ const OrderItemCard = ({
             <h5 className="md:mb-2 text-xl font-bold tracking-tight text-gray-900 ">
               {name}
             </h5>
-            <p className="md:mb-3 font-normal text-sm text-gray-700">
+            <p className="md:mb-2 font-normal text-sm text-gray-700">
               {description}
             </p>
           </div>
-          <div className="flex justify-between items-center">
-            <p className="font-bold text-lg text-gray-900">${price}</p>
+          <div className="flex md:flex-col md:gap-4 justify-between items-center">
+            <p className="font-bold text-base text-gray-900">
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }).format(price)}
+            </p>
             <AnimatePresence>
               {isItemInCart(id) ? (
                 <motion.div

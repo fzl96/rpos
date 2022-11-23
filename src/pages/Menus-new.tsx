@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { useMenu } from "../context/MenuContext";
 
-const types = [{ name: "Food" }, { name: "Drink" }];
+const types = [{ name: "Makanan" }, { name: "Minuman" }];
 
 const MenusNew = () => {
   const navigate = useNavigate();
@@ -20,9 +20,9 @@ const MenusNew = () => {
   const [price, setPrice] = useState(0);
 
   const [item, setItem] = useState({
-    name: "Add a name",
+    name: "Masukkan nama menu",
     price: 0,
-    description: "Add a description",
+    description: "Masukkan deskripsi menu",
     image: image,
     file: file,
     type: selected.name,
@@ -35,6 +35,15 @@ const MenusNew = () => {
   useEffect(() => {
     setItem({ ...item, price: price });
   }, [price]);
+
+  useEffect(() => {
+    setItem({
+      ...item,
+      type: selected.name,
+    });
+  }, [selected.name]);
+
+  console.log(selected.name);
 
   const onDrop = useCallback((acceptedFiles: any) => {
     // const file = acceptedFiles[0];
@@ -74,9 +83,9 @@ const MenusNew = () => {
       >
         <div className="flex flex-col md:gap-5 border-r md:max-w-sm">
           <div className="flex flex-col md:max-w-xs ">
-            <h1 className="text-2xl font-bold">Item Preview</h1>
+            <h1 className="text-2xl font-bold">Preview Item</h1>
             <p className="text-gray-500">
-              Below is the preview of the item in the menus page.
+              Tampilan dibawah merupakan tampilan preview dari menu
             </p>
           </div>
           <div className="flex flex-col gap-5 ">
@@ -111,46 +120,46 @@ const MenusNew = () => {
         </div>
         <div className="">
           <div className="flex flex-col">
-            <h1 className="text-2xl font-bold">Item Details</h1>
-            <p className="text-gray-500">Fill out the details for the item.</p>
+            <h1 className="text-2xl font-bold">Detail Item</h1>
+            <p className="text-gray-500">Masukkan detail item.</p>
           </div>
           <div className="mt-5">
             <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
               <label htmlFor="email" className="font-semibold">
-                Name
+                Nama
               </label>
               <input
                 type="text"
                 name="name"
                 id="name"
                 className="py-3 px-6 rounded-lg border-2"
-                placeholder="Name"
+                placeholder="Nama"
                 required
                 onChange={(e) => setItem({ ...item, name: e.target.value })}
               />
               <label htmlFor="description" className="font-semibold">
-                Description
+                Deskripsi
               </label>
               <input
                 type="text"
                 name="description"
                 id="description"
                 className="py-3 px-6 rounded-lg border-2"
-                placeholder="Description"
+                placeholder="Deskripsi"
                 required
                 onChange={(e) =>
                   setItem({ ...item, description: e.target.value })
                 }
               />
               <label htmlFor="price" className="font-semibold">
-                Price
+                Harga
               </label>
               <input
                 type="number"
                 name="price"
                 id="price"
                 className="py-3 px-6 rounded-lg border-2"
-                placeholder="Price"
+                placeholder="Harga"
                 min={1}
                 onChange={(e) =>
                   setItem({
@@ -162,7 +171,7 @@ const MenusNew = () => {
                 }
               />
               <label htmlFor="type" className="font-semibold">
-                Type
+                Tipe
               </label>
               <ListBox
                 selected={selected}
@@ -178,7 +187,7 @@ const MenusNew = () => {
                     <PropagateLoader color={"#fff"} loading={true} size={10} />
                   </span>
                 ) : (
-                  "Add Menu"
+                  "Tambah menu"
                 )}
               </button>
             </form>

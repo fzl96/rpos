@@ -29,7 +29,12 @@ const CartItem = ({
         <div className="flex flex-col w-full gap-2">
           <h1 className="text-xl font-semibold">{name}</h1>
           <div className="flex justify-between">
-            <p className="font-semibold">${quantity * price}</p>
+            <p className="font-semibold">
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }).format(quantity * price)}
+            </p>
 
             <motion.div
               className="flex items-center gap-2"

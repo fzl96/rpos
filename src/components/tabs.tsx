@@ -1,5 +1,6 @@
 import { Tab } from "@headlessui/react";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 import { useMenu } from "../context/MenuContext";
 import MenuCard from "./ui/menus-card";
 
@@ -11,6 +12,18 @@ const Tabs = () => {
   const { menu, loading } = useMenu();
 
   const categories = ["Food", "Drinks"];
+
+  const foods = useMemo(
+    () => menu?.filter((item: any) => item.type === "Makanan"),
+    [menu]
+  );
+
+  const drinks = useMemo(
+    () => menu?.filter((item: any) => item.type === "Minuman"),
+    [menu]
+  );
+
+  console.log(menu);
 
   return (
     <>
@@ -38,19 +51,34 @@ const Tabs = () => {
             {loading ? (
               <></>
             ) : (
-              menu.map((food: any, i: number) => (
+              foods.map((food: any, i: number) => (
                 <motion.div
                   key={food.id}
                   initial={{ opacity: 0, translateX: -50 }}
                   animate={{ opacity: 1, translateX: 0 }}
-                  transition={{ duration: 0.2, delay: i * 0.1 }}
+                  transition={{ delay: i * 0.1 }}
                 >
                   <MenuCard {...food} />
                 </motion.div>
               ))
             )}
           </Tab.Panel>
-          <Tab.Panel></Tab.Panel>
+          <Tab.Panel>
+            {loading ? (
+              <></>
+            ) : (
+              drinks.map((drink: any, i: number) => (
+                <motion.div
+                  key={drink.id}
+                  initial={{ opacity: 0, translateX: -50 }}
+                  animate={{ opacity: 1, translateX: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.1 }}
+                >
+                  <MenuCard {...drink} />
+                </motion.div>
+              ))
+            )}
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </>

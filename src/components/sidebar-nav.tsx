@@ -24,13 +24,13 @@ export const sidebarItem: NavItem[] = [
     end: true,
   },
   {
-    title: "Orders",
+    title: "Pesanan",
     icon: <MdShoppingCart />,
     path: "/orders",
     end: false,
   },
   {
-    title: "Menus",
+    title: "Daftar Menu",
     icon: <MdLocalDining />,
     path: "/menus",
     end: false,

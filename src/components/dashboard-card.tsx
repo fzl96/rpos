@@ -1,7 +1,6 @@
 import type { OrderType } from "@/context/OrderContext";
 import { useOrder } from "@/context/OrderContext";
-import { startOfMonth, startOfToday } from "date-fns";
-import { eachDayOfInterval, endOfMonth } from "date-fns/esm";
+import { startOfToday } from "date-fns";
 import { IoMdPricetag } from "react-icons/io";
 import { MdLocalDining, MdOutlineShoppingCart } from "react-icons/md";
 import Card from "./ui/card";
@@ -15,20 +14,20 @@ export type DashboardItems = {
 
 export const dashboardItems: DashboardItems[] = [
   {
-    title: "Sales",
-    subtitle: "Total sales this month",
+    title: "Pendapatan",
+    subtitle: "Total pendapatan bulan ini",
     icon: <IoMdPricetag />,
     background: "bg-[#ffefe2]",
   },
   {
-    title: "Orders",
-    subtitle: "Total orders this month",
+    title: "Pesanan",
+    subtitle: "Total pesanan bulan ini",
     icon: <MdOutlineShoppingCart />,
     background: "bg-[#E6F5F9]",
   },
   {
-    title: "Products",
-    subtitle: "Number of products",
+    title: "Produk",
+    subtitle: "Jumlah produk",
     icon: <MdLocalDining />,
     background: "bg-[#F4F6FA]",
   },
@@ -37,11 +36,6 @@ export const dashboardItems: DashboardItems[] = [
 const DashboardCard = () => {
   const { orders } = useOrder();
   const today = startOfToday();
-  const currentMonth = eachDayOfInterval({
-    start: startOfMonth(today),
-    end: endOfMonth(today),
-  });
-
   // get all orders for the current month
   const currentMonthOrders = orders.filter((order: OrderType) => {
     const orderDate = new Date(order.date);
@@ -64,7 +58,7 @@ const DashboardCard = () => {
         {dashboardItems.map((item, index) => (
           <Card
             value={
-              item.title === "Sales"
+              item.title === "Pendapatan"
                 ? totalSalesThisMonth
                 : currentMonthOrders.length
             }

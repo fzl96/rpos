@@ -22,7 +22,7 @@ const Orders = () => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <PageTitle title="Orders" />
+        <PageTitle title="Pesanan" />
         <div className="flex flex-col gap-5 ">
           <OrdersCard />
         </div>

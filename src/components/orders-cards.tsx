@@ -13,14 +13,14 @@ export type OrdersCardItems = {
 
 const ordersCardItems: OrdersCardItems[] = [
   {
-    title: "Sales",
-    subtitle: "Total sales today",
+    title: "Pendapatan",
+    subtitle: "Total pendapatan hari ini",
     icon: <IoMdPricetag />,
     background: "bg-[#fdefef]",
   },
   {
-    title: "Orders",
-    subtitle: "Total orders today",
+    title: "Pesanan",
+    subtitle: "Total pesanan hari ini",
     icon: <MdOutlineShoppingCart />,
     background: "bg-[#f9f3df]",
   },
@@ -50,14 +50,14 @@ const OrdersCard = () => {
 
   const totalOrdersToday = todayOrders.length;
 
-  console.log(todayOrders);
-
   return (
     <>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-5 pt-5">
         {ordersCardItems.map((item, index) => (
           <Card
-            value={item.title === "Sales" ? totalSalesToday : totalOrdersToday}
+            value={
+              item.title === "Pendapatan" ? totalSalesToday : totalOrdersToday
+            }
             {...item}
             key={index}
           />

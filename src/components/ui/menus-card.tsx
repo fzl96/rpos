@@ -32,7 +32,12 @@ const MenuCard = ({ id, name, price, description, image }: MenuCardProps) => {
             {description}
           </p>
           <p className="flex justify-between items-center">
-            <span className="font-bold text-lg text-gray-900">Rp {price}K</span>
+            <span className="font-bold text-lg text-gray-900">
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }).format(price)}
+            </span>
             <BasicMenu id={id} />
           </p>
         </div>

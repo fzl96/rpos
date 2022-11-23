@@ -15,7 +15,7 @@ const Menus = () => {
 
   return (
     <>
-      <PageTitle title="Menus" />
+      <PageTitle title="Menu" />
       <div className="mt-5 md:mb-5">
         <Tabs />
       </div>

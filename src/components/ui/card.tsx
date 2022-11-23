@@ -21,10 +21,10 @@ const Card = ({ title, subtitle, icon, background, value }: CardProps) => {
         </div>
         <div className="flex items-center justify-between">
           <h1 className="font-bold text-xl">
-            {title === "Sales"
-              ? new Intl.NumberFormat("en-us", {
+            {title === "Pendapatan"
+              ? new Intl.NumberFormat("id-ID", {
                   style: "currency",
-                  currency: "USD",
+                  currency: "IDR",
                 }).format(value)
               : value}
           </h1>
@@ -34,4 +34,5 @@ const Card = ({ title, subtitle, icon, background, value }: CardProps) => {
     </>
   );
 };
+
 export default Card;

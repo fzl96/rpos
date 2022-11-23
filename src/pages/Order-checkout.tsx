@@ -49,7 +49,6 @@ const OrderCheckout = () => {
       else console.log(err);
     }
   };
-  console.log(cart);
 
   return (
     <>
@@ -104,7 +103,9 @@ const OrderCheckout = () => {
               type="number"
               name="tableNumber"
               id="tableNumber"
-              className="py-3 px-6 rounded-lg border-2"
+              className={`${
+                selected.name === "Takeout" ? "bg-gray-100" : ""
+              } py-3 px-6 rounded-lg border-2`}
               placeholder="No"
               onChange={(e) =>
                 setOrder({
@@ -142,15 +143,48 @@ const OrderCheckout = () => {
             <div className="flex flex-col gap-3">
               <div className="flex  justify-between">
                 <h2>Subtotal</h2>
-                <h3>$ {getTotalPrice()}.00</h3>
+                <h3>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(getTotalPrice())}
+                </h3>
               </div>
               <div className="flex  justify-between">
-                <h2>Vat (10%)</h2>
-                <h3>$ {getTotalPrice() * 0.1}</h3>
+                <h2>Pajak (10%)</h2>
+                <h3>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(getTotalPrice() * 0.1)}
+                </h3>
               </div>
               <div className="flex font-bold justify-between">
                 <h2>Total</h2>
-                <h3>$ {getTotalPrice() * 0.1 + getTotalPrice()}</h3>
+                <h3>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(getTotalPrice() * 0.1 + getTotalPrice())}
+                </h3>
+              </div>
+              <div className="flex justify-between">
+                <h2>Cash</h2>
+                <h3>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(order.cash)}
+                </h3>
+              </div>
+              <div className="flex font-bold justify-between">
+                <h2>Kembalian</h2>
+                <h3>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(order.cash - getTotalPrice() * 1.1)}
+                </h3>
               </div>
             </div>
 
