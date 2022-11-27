@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import DashboardCard from '@/components/dashboard-card';
 import LineChart from '@/components/ui/lineChart';

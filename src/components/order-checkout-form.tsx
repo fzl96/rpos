@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 import ListBox from '@/components/ui/listbox';
@@ -11,6 +12,7 @@ const types = [{ name: 'Dine-in' }, { name: 'Takeout' }];
 
 function OrderCheckoutForm() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
   const [selected, setSelected] = useState(types[0]);
   const { menu } = useMenu();
   const { cart, addOrder } = useOrder();
@@ -42,12 +44,17 @@ function OrderCheckoutForm() {
     });
   }, [selected.name]);
 
-  // what is the type of submit event?
+  useEffect(() => {
+    setError('');
+  }, [order.cash, selected.name, order.table]);
 
   const handleOrderSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      if (order.cash < order.total) return;
+      if (order.cash < order.total) {
+        setError('Cash tidak cukup');
+        return;
+      }
       await addOrder(order);
       navigate('/orders');
     } catch (err) {
@@ -65,48 +72,47 @@ function OrderCheckoutForm() {
       </label>
       <label htmlFor="tableNumber" className="font-semibold">
         Table Number
-        <input
-          type="number"
-          name="tableNumber"
-          id="tableNumber"
-          className={`${
-            selected.name === 'Takeout' ? 'bg-gray-100' : ''
-          } py-3 px-6 rounded-lg border-2`}
-          placeholder="No"
-          onChange={(e) =>
-            setOrder({
-              ...order,
-              table: Number.isNaN(Number(e.target.value))
-                ? 0
-                : Number(e.target.value),
-            })
-          }
-          disabled={selected.name === 'Takeout'}
-        />
       </label>
+      <input
+        type="number"
+        name="tableNumber"
+        id="tableNumber"
+        className={`${
+          selected.name === 'Takeout' ? 'bg-gray-100' : ''
+        } py-3 px-6 rounded-lg border-2`}
+        placeholder="No"
+        onChange={(e) =>
+          setOrder({
+            ...order,
+            table: Number.isNaN(Number(e.target.value))
+              ? 0
+              : Number(e.target.value),
+          })
+        }
+        disabled={selected.name === 'Takeout'}
+      />
       <label htmlFor="price" className="font-semibold">
         Cash
-        <input
-          type="number"
-          name="cash"
-          id="cash"
-          className="py-3 px-6 rounded-lg border-2"
-          placeholder="Cash"
-          min={1}
-          onChange={(e) => {
-            setOrder({
-              ...order,
-              cash: Number.isNaN(Number(e.target.value))
-                ? 0
-                : Number(e.target.value),
-              change: Number.isNaN(Number(e.target.value))
-                ? 0
-                : Number(e.target.value) - order.total,
-            });
-          }}
-        />
       </label>
-
+      <input
+        type="number"
+        name="cash"
+        id="cash"
+        className="py-3 px-6 rounded-lg border-2"
+        placeholder="Cash"
+        min={1}
+        onChange={(e) => {
+          setOrder({
+            ...order,
+            cash: Number.isNaN(Number(e.target.value))
+              ? 0
+              : Number(e.target.value),
+            change: Number.isNaN(Number(e.target.value))
+              ? 0
+              : Number(e.target.value) - order.total,
+          });
+        }}
+      />
       <div className="flex flex-col gap-3">
         <div className="flex  justify-between">
           <h2>Subtotal</h2>
@@ -161,6 +167,7 @@ function OrderCheckoutForm() {
       >
         Save
       </button>
+      <h1 className="text-red-500">{error}</h1>
     </form>
   );
 }
