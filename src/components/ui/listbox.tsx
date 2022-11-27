@@ -1,17 +1,18 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+/* eslint-disable @typescript-eslint/no-shadow */
+import { Listbox, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
-interface typesType {
+interface TypesType {
   name: string;
 }
 
 interface Props {
-  selected: any;
-  setSelected: any;
-  types: typesType[];
+  selected: { name: string };
+  setSelected: React.Dispatch<React.SetStateAction<{ name: string }>>;
+  types: TypesType[];
 }
 
-const ListBox = ({ selected, setSelected, types }: Props) => {
+function ListBox({ selected, setSelected, types }: Props) {
   return (
     <div className="">
       <Listbox value={selected} onChange={setSelected}>
@@ -41,12 +42,12 @@ const ListBox = ({ selected, setSelected, types }: Props) => {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {types.map((t: typesType, index: number) => (
+              {types.map((t: TypesType) => (
                 <Listbox.Option
-                  key={index}
+                  key={t.name}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-amber-100 text-amber-900" : "text-gray-900"
+                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
                     }`
                   }
                   value={t}
@@ -55,13 +56,13 @@ const ListBox = ({ selected, setSelected, types }: Props) => {
                     <>
                       <span
                         className={`block truncate ${
-                          selected ? "font-medium" : "font-normal"
+                          selected ? 'font-medium' : 'font-normal'
                         }`}
                       >
                         {t.name}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"></span>
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600" />
                       ) : null}
                     </>
                   )}
@@ -73,5 +74,5 @@ const ListBox = ({ selected, setSelected, types }: Props) => {
       </Listbox>
     </div>
   );
-};
+}
 export default ListBox;

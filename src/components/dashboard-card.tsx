@@ -1,42 +1,41 @@
-import type { OrderType } from "@/context/OrderContext";
-import { useOrder } from "@/context/OrderContext";
-import { startOfToday } from "date-fns";
-import { IoMdPricetag } from "react-icons/io";
-import { MdLocalDining, MdOutlineShoppingCart } from "react-icons/md";
-import Card from "./ui/card";
+import type { OrderType } from '@/context/OrderContext';
+import { useOrder } from '@/context/OrderContext';
+import { startOfToday } from 'date-fns';
+import { IoMdPricetag } from 'react-icons/io';
+import { MdLocalDining, MdOutlineShoppingCart } from 'react-icons/md';
+import Card from './ui/card';
 
 export type DashboardItems = {
   title: string;
   subtitle: string;
-  icon: any;
+  icon: React.ReactNode;
   background: string;
 };
 
 export const dashboardItems: DashboardItems[] = [
   {
-    title: "Pendapatan",
-    subtitle: "Total pendapatan bulan ini",
+    title: 'Pendapatan',
+    subtitle: 'Total pendapatan bulan ini',
     icon: <IoMdPricetag />,
-    background: "bg-[#ffefe2]",
+    background: 'bg-[#ffefe2]',
   },
   {
-    title: "Pesanan",
-    subtitle: "Total pesanan bulan ini",
+    title: 'Pesanan',
+    subtitle: 'Total pesanan bulan ini',
     icon: <MdOutlineShoppingCart />,
-    background: "bg-[#E6F5F9]",
+    background: 'bg-[#E6F5F9]',
   },
   {
-    title: "Produk",
-    subtitle: "Jumlah produk",
+    title: 'Produk',
+    subtitle: 'Jumlah produk',
     icon: <MdLocalDining />,
-    background: "bg-[#F4F6FA]",
+    background: 'bg-[#F4F6FA]',
   },
 ];
 
-const DashboardCard = () => {
+function DashboardCard() {
   const { orders } = useOrder();
   const today = startOfToday();
-  // get all orders for the current month
   const currentMonthOrders = orders.filter((order: OrderType) => {
     const orderDate = new Date(order.date);
     if (
@@ -45,6 +44,7 @@ const DashboardCard = () => {
     ) {
       return order;
     }
+    return null;
   });
 
   const totalSalesThisMonth = currentMonthOrders.reduce(
@@ -53,21 +53,19 @@ const DashboardCard = () => {
   );
 
   return (
-    <>
-      <div className="grid md:grid-cols-3 grid-cols-2 gap-5 pt-5">
-        {dashboardItems.map((item, index) => (
-          <Card
-            value={
-              item.title === "Pendapatan"
-                ? totalSalesThisMonth
-                : currentMonthOrders.length
-            }
-            {...item}
-            key={index}
-          />
-        ))}
-      </div>
-    </>
+    <div className="grid md:grid-cols-3 grid-cols-2 gap-5 pt-5">
+      {dashboardItems.map((item) => (
+        <Card
+          value={
+            item.title === 'Pendapatan'
+              ? totalSalesThisMonth
+              : currentMonthOrders.length
+          }
+          {...item}
+          key={item.title}
+        />
+      ))}
+    </div>
   );
-};
+}
 export default DashboardCard;

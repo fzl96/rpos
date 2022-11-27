@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import PulseLoader from "react-spinners/PulseLoader";
-import { useAuth } from "../context/AuthContext";
+/* eslint-disable no-console */
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { useAuth } from '../context/AuthContext';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { signIn } = useAuth();
   const [loginLoading, setLoginLoading] = useState(false);
@@ -14,30 +15,31 @@ const Login = () => {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    document.title = "POS - Login";
+    document.title = 'POS - Login';
   }, []);
 
   if (loading) {
-    return <></>;
+    return <h1>Loading...</h1>;
   }
 
   if (user) {
     return <Navigate to="/" />;
   }
 
-  console.log("error : " + error);
+  console.log(`error : ${error}`);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
       setLoginLoading(true);
       await signIn(email, password);
       setLoginLoading(false);
-      navigate("/");
-    } catch (e: any) {
-      setError(e.message);
+      navigate('/');
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+      console.log(err);
       setLoginLoading(false);
     }
   };
@@ -56,7 +58,7 @@ const Login = () => {
             placeholder="Email"
             onChange={(e) => {
               setEmail(e.target.value);
-              setError("");
+              setError('');
             }}
           />
           <input
@@ -65,21 +67,21 @@ const Login = () => {
             placeholder="Password"
             onChange={(e) => {
               setPassword(e.target.value);
-              setError("");
+              setError('');
             }}
           />
           <button
             type="submit"
-            className={`bg-[#111827] text-white text-lg font-semibold outline-none px-10 py-4 rounded-xl`}
+            className="bg-[#111827] text-white text-lg font-semibold outline-none px-10 py-4 rounded-xl"
           >
-            {loginLoading ? <PulseLoader color="white" /> : "Sign In"}
+            {loginLoading ? <PulseLoader color="white" /> : 'Sign In'}
           </button>
           <p className="text-center text-base text-red-500">
-            {error && "Invalid email/password"}
+            {error && 'Invalid email/password'}
           </p>
         </form>
       </div>
     </div>
   );
-};
+}
 export default Login;

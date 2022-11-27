@@ -1,18 +1,19 @@
-import OrdersCard from "@/components/orders-cards";
-import Table from "@/components/table";
-import AddButton from "@/components/ui/add-btn";
-import PageTitle from "@/components/ui/page-title";
-import { useOrder } from "@/context/OrderContext";
-import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+import OrdersCard from '@/components/orders-cards';
+import Table from '@/components/table';
+import AddButton from '@/components/ui/add-btn';
+import PageTitle from '@/components/ui/page-title';
+import { useOrder } from '@/context/OrderContext';
+import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
-const Orders = () => {
-  const [open, setOpen]: any = useOutletContext();
+function Orders() {
+  const [, setOpen]: any = useOutletContext();
   const { orders } = useOrder();
 
   useEffect(() => {
-    document.title = "POS - Dashboard";
+    document.title = 'POS - Dashboard';
     setOpen(false);
   }, []);
 
@@ -33,5 +34,5 @@ const Orders = () => {
       <AddButton toolTipTitle="Add Order" navigateTo="/orders/new" />
     </div>
   );
-};
+}
 export default Orders;

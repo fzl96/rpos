@@ -1,26 +1,50 @@
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
-import { createContext, useContext, useEffect, useState } from "react";
-import { db } from "../config/firebase";
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable @typescript-eslint/no-shadow */
+import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { db } from '../config/firebase';
 
-export type OrderItem = {
+type OrderItem = {
   id: string;
   quantity: number;
 };
 
+type Order = {
+  id: string;
+  type: string;
+  table: number;
+  cash: number;
+  change: number;
+  items: OrderItem[];
+  total: number;
+  date: Date;
+};
+
+export type OrderType = {
+  type: string;
+  table: number;
+  cash: number;
+  change: number;
+  items: OrderItem[];
+  total: number;
+  date: Date;
+};
+
 // create order context type
 type OrderContextType = {
-  orders: any;
+  orders: Order[];
   cart: OrderItem[];
   loading: boolean;
   addToCart: (id: string) => void;
   removeFromCart: (id: string) => void;
   isItemInCart: (id: string) => boolean;
-  addOrder: (order: any) => void;
+  addOrder: (order: OrderType) => void;
 };
 
 // create order context
 const OrderContext = createContext<OrderContextType>({
-  orders: null,
+  orders: [],
   cart: [],
   loading: false,
   addToCart: () => {},
@@ -34,24 +58,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-type orderItems = {
-  id: string;
-  quantity: number;
-};
-
-export type OrderType = {
-  type: string;
-  table: number;
-  cash: number;
-  change: number;
-  items: orderItems[];
-  total: number;
-  date: Date;
-};
-
-export const OrderProvider = ({ children }: Props) => {
+export function OrderProvider({ children }: Props) {
   const [cart, setCart] = useState<OrderItem[]>([]);
-  const [orders, setOrders] = useState<orderItems[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   // create a function that checks if the item is already in the cart
@@ -95,13 +104,14 @@ export const OrderProvider = ({ children }: Props) => {
         )
       );
     }
+    return null;
   };
 
   const addOrder = async (order: OrderType) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
         // add order to firebase
-        await addDoc(collection(db, "orders"), order);
+        addDoc(collection(db, 'orders'), order);
         // clear cart
         setCart([]);
         resolve(true);
@@ -112,7 +122,8 @@ export const OrderProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "orders"), (snapshot) => {
+    setLoading(true);
+    const unsubscribe = onSnapshot(collection(db, 'orders'), (snapshot) => {
       const orders: any = [];
       snapshot.forEach((doc) => {
         orders.push({
@@ -122,7 +133,9 @@ export const OrderProvider = ({ children }: Props) => {
         });
       });
       // sort orders from newest to oldest
-      orders.sort((a: any, b: any) => b.date - a.date);
+      orders.sort(
+        (a: OrderType, b: OrderType) => b.date.getTime() - a.date.getTime()
+      );
       setOrders(orders);
       setLoading(false);
     });
@@ -144,6 +157,6 @@ export const OrderProvider = ({ children }: Props) => {
       {children}
     </OrderContext.Provider>
   );
-};
+}
 
 export const useOrder = () => useContext(OrderContext);

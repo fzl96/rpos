@@ -1,32 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-shadow */
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
   onSnapshot,
-} from "firebase/firestore";
-import { createContext, useContext, useEffect, useState } from "react";
-import { db, storage } from "../config/firebase";
-// import necessary firebase storage modules
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+} from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { db, storage } from '../config/firebase';
 
 export interface MenuProps {
   name: string;
   price: number;
   description: string;
-  file: any;
+  file: File;
   type: string;
-}
-// create interface for menu context
-interface MenuContextType {
-  menu: any;
-  loading: boolean;
-  addLoading: boolean;
-  addMenu: (menu: MenuProps) => void;
-  deleteMenu: (id: string) => void;
 }
 
 export interface MenuType {
+  id: string;
   name: string;
   price: number;
   description: string;
@@ -34,9 +29,18 @@ export interface MenuType {
   type: string;
 }
 
+// create interface for menu context
+interface MenuContextType {
+  menu: MenuType[];
+  loading: boolean;
+  addLoading: boolean;
+  addMenu: (menu: MenuProps) => void;
+  deleteMenu: (id: string) => void;
+}
+
 // create menu context
 const MenuContext = createContext<MenuContextType>({
-  menu: null,
+  menu: [],
   loading: true,
   addLoading: false,
   addMenu: () => {},
@@ -48,13 +52,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const MenuProvider = ({ children }: Props) => {
+export function MenuProvider({ children }: Props) {
   // create state for menu
-  const [menu, setMenu] = useState<any>();
+  const [menu, setMenu] = useState<MenuType[]>([]);
   const [loading, setLoading] = useState(true);
   const [addLoading, setAddLoading] = useState(false);
 
   // create a function that will add menu to firebase
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const addMenu = (menu: MenuProps) => {
     // return promise
     return new Promise((resolve, reject) => {
@@ -67,16 +72,14 @@ export const MenuProvider = ({ children }: Props) => {
         const uploadTask = uploadBytesResumable(storageRef, menu.file);
         // listen to the upload task
         uploadTask.on(
-          "state_changed",
+          'state_changed',
           (snapshot) => {
             // get the progress of the upload
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
           },
           (error) => {
             // catch any errors
-            console.log(error);
             setAddLoading(false);
             reject(error);
           },
@@ -84,7 +87,7 @@ export const MenuProvider = ({ children }: Props) => {
             // get the download url
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               // add the menu to the database
-              addDoc(collection(db, "menu"), {
+              addDoc(collection(db, 'menu'), {
                 name: menu.name,
                 price: menu.price,
                 description: menu.description,
@@ -99,7 +102,6 @@ export const MenuProvider = ({ children }: Props) => {
         );
       } catch (error) {
         // catch any errors
-        console.log(error);
         setAddLoading(false);
         reject(error);
       }
@@ -108,14 +110,14 @@ export const MenuProvider = ({ children }: Props) => {
 
   const deleteMenu = async (id: string) => {
     try {
-      await deleteDoc(doc(db, "menu", id));
+      await deleteDoc(doc(db, 'menu', id));
     } catch (error) {
-      console.error("Error removing document: ", error);
+      console.error('Error removing document: ', error);
     }
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "menu"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, 'menu'), (snapshot) => {
       const menu: any = [];
       snapshot.forEach((doc) => {
         menu.push({ ...doc.data(), id: doc.id });
@@ -123,15 +125,17 @@ export const MenuProvider = ({ children }: Props) => {
       setMenu(menu);
       setLoading(false);
     });
+    return unsubscribe;
   }, []);
 
   return (
     <MenuContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{ menu, loading, addMenu, deleteMenu, addLoading }}
     >
       {children}
     </MenuContext.Provider>
   );
-};
+}
 
 export const useMenu = () => useContext(MenuContext);

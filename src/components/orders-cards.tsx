@@ -1,35 +1,34 @@
-import type { OrderType } from "@/context/OrderContext";
-import { useOrder } from "@/context/OrderContext";
-import { IoMdPricetag } from "react-icons/io";
-import { MdOutlineShoppingCart } from "react-icons/md";
-import Card from "./ui/card";
+import type { OrderType } from '@/context/OrderContext';
+import { useOrder } from '@/context/OrderContext';
+import { IoMdPricetag } from 'react-icons/io';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import Card from './ui/card';
 
 export type OrdersCardItems = {
   title: string;
   subtitle: string;
-  icon: any;
+  icon: React.ReactNode;
   background: string;
 };
 
 const ordersCardItems: OrdersCardItems[] = [
   {
-    title: "Pendapatan",
-    subtitle: "Total pendapatan hari ini",
+    title: 'Pendapatan',
+    subtitle: 'Total pendapatan hari ini',
     icon: <IoMdPricetag />,
-    background: "bg-[#fdefef]",
+    background: 'bg-[#fdefef]',
   },
   {
-    title: "Pesanan",
-    subtitle: "Total pesanan hari ini",
+    title: 'Pesanan',
+    subtitle: 'Total pesanan hari ini',
     icon: <MdOutlineShoppingCart />,
-    background: "bg-[#f9f3df]",
+    background: 'bg-[#f9f3df]',
   },
 ];
 
-const OrdersCard = () => {
+function OrdersCard() {
   const { orders } = useOrder();
 
-  // get all orders today
   const today = new Date();
   const todayOrders = orders.filter((order: OrderType) => {
     const orderDate = new Date(order.date);
@@ -40,9 +39,9 @@ const OrdersCard = () => {
     ) {
       return order;
     }
+    return null;
   });
 
-  // get total sales today
   const totalSalesToday = todayOrders.reduce(
     (acc: number, order: OrderType) => acc + order.total,
     0
@@ -51,19 +50,17 @@ const OrdersCard = () => {
   const totalOrdersToday = todayOrders.length;
 
   return (
-    <>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-5 pt-5">
-        {ordersCardItems.map((item, index) => (
-          <Card
-            value={
-              item.title === "Pendapatan" ? totalSalesToday : totalOrdersToday
-            }
-            {...item}
-            key={index}
-          />
-        ))}
-      </div>
-    </>
+    <div className="grid md:grid-cols-2 grid-cols-1 gap-5 pt-5">
+      {ordersCardItems.map((item) => (
+        <Card
+          value={
+            item.title === 'Pendapatan' ? totalSalesToday : totalOrdersToday
+          }
+          {...item}
+          key={item.title}
+        />
+      ))}
+    </div>
   );
-};
+}
 export default OrdersCard;

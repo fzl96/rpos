@@ -1,19 +1,23 @@
-import DashboardCard from "@/components/dashboard-card";
-import LineChart from "@/components/ui/lineChart";
-import PageTitle from "@/components/ui/page-title";
-import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import DashboardCard from '@/components/dashboard-card';
+import LineChart from '@/components/ui/lineChart';
+import PageTitle from '@/components/ui/page-title';
+import { useOrder } from '@/context/OrderContext';
+import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
-const Dashboard = () => {
-  const [open, setOpen]: any = useOutletContext();
+function Dashboard() {
+  // const [, setOpen]: boolean = useOutletContext();
+  const { loading } = useOrder();
   const { user } = useAuth();
 
   useEffect(() => {
-    document.title = "POS - Dashboard";
-    setOpen(false);
+    document.title = 'POS - Dashboard';
+    // setOpen(false);
   }, []);
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <>
@@ -30,5 +34,5 @@ const Dashboard = () => {
       </motion.div>
     </>
   );
-};
+}
 export default Dashboard;
