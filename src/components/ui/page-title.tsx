@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface PageTitleProps {
   title: string;
-  email?: string;
+  email?: string | null;
 }
 
 function PageTitle({ title, email }: PageTitleProps) {

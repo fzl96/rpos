@@ -5,23 +5,24 @@ import PageTitle from '@/components/ui/page-title';
 import { useOrder } from '@/context/OrderContext';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Dashboard() {
-  // const [, setOpen]: boolean = useOutletContext();
+  const [, setOpen]: any = useOutletContext();
   const { loading } = useOrder();
   const { user } = useAuth();
 
   useEffect(() => {
     document.title = 'POS - Dashboard';
-    // setOpen(false);
+    setOpen(false);
   }, []);
 
   if (loading) return <h1>Loading...</h1>;
 
   return (
     <>
-      <PageTitle title="Dashboard" email={user.email} />
+      <PageTitle title="Dashboard" email={user?.email} />
       <motion.div
         className="flex flex-col gap-5"
         initial={{ opacity: 0, y: 100 }}
