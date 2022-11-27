@@ -39,7 +39,7 @@ function MenusNew() {
       ...item,
       type: selected.name,
     });
-  }, [item, selected.name]);
+  }, [selected.name]);
 
   const onDrop = useCallback((acceptedFiles: any) => {
     // const file = acceptedFiles[0];
