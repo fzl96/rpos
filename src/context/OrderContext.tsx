@@ -1,7 +1,13 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-shadow */
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+} from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
 
@@ -40,6 +46,7 @@ type OrderContextType = {
   removeFromCart: (id: string) => void;
   isItemInCart: (id: string) => boolean;
   addOrder: (order: OrderType) => void;
+  deleteOrders: (id: string[]) => void;
 };
 
 // create order context
@@ -51,6 +58,7 @@ const OrderContext = createContext<OrderContextType>({
   removeFromCart: () => {},
   isItemInCart: () => false,
   addOrder: async () => {},
+  deleteOrders: async () => {},
 });
 
 // create type for children
@@ -121,6 +129,20 @@ export function OrderProvider({ children }: Props) {
     });
   };
 
+  const deleteOrders = async (ids: string[]) => {
+    return new Promise((resolve, reject) => {
+      try {
+        // delete orders from firebase
+        ids.forEach((id) => {
+          deleteDoc(doc(db, 'orders', id));
+        });
+        resolve(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
     const unsubscribe = onSnapshot(collection(db, 'orders'), (snapshot) => {
@@ -152,6 +174,7 @@ export function OrderProvider({ children }: Props) {
         orders,
         loading,
         addOrder,
+        deleteOrders,
       }}
     >
       {children}

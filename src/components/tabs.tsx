@@ -63,7 +63,7 @@ function Tabs() {
         </Tab.Panel>
         <Tab.Panel className="grid md:grid-cols-3 grid-cols-2 gap-4">
           {loading ? (
-            <h1>loading...</h1>
+            <h1>load</h1>
           ) : (
             drinks.map((drink: MenuType, i: number) => (
               <motion.div

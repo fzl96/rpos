@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import Loaders from '@/components/ui/loading-icon';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
@@ -19,7 +20,7 @@ function Login() {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loaders />;
   }
 
   if (user) {

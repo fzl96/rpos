@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { CgClose, CgMenuLeftAlt } from 'react-icons/cg';
 import { Navigate, Outlet } from 'react-router-dom';
+import Loaders from './components/ui/loading-icon';
 import { useAuth } from './context/AuthContext';
 
 interface Props {
@@ -17,7 +18,7 @@ function Shell({ children, open, setOpen }: Props) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <h1>loading...</h1>;
+    return <Loaders />;
   }
 
   if (!user) {

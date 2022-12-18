@@ -66,7 +66,7 @@ function MenusNew() {
       navigate('/menus');
     } catch (err) {
       if (err instanceof Error) console.log(err.message);
-      else console.log(err);
+      console.log(err);
     }
   };
 
