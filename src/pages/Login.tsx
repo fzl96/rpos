@@ -6,8 +6,8 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { useAuth } from '../context/AuthContext';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tes@tes.com');
+  const [password, setPassword] = useState('12345678');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { signIn } = useAuth();
@@ -26,8 +26,6 @@ function Login() {
   if (user) {
     return <Navigate to="/" />;
   }
-
-  console.log(`error : ${error}`);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -55,7 +53,8 @@ function Login() {
         >
           <input
             type="email"
-            className="bg-[#F6F5FA] text-lg outline-none px-8 px-8 py-4 rounded-xl"
+            value={email}
+            className="bg-[#F6F5FA] text-lg outline-none px-8 py-4 rounded-xl"
             placeholder="Email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -64,6 +63,7 @@ function Login() {
           />
           <input
             type="password"
+            value={password}
             className="bg-[#F6F5FA] text-lg outline-none px-8 py-4 rounded-xl"
             placeholder="Password"
             onChange={(e) => {
