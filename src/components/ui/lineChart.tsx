@@ -11,10 +11,6 @@ Chart.register(...registerables);
 function LineChart() {
   const { orders } = useOrder();
 
-  const now = new Date().getMonth();
-  console.log(now);
-
-  console.log(typeof orders);
   const ordersArr = useMemo(() => {
     const arr = orders.map((order) => {
       const date = new Date(order.date);
@@ -42,22 +38,17 @@ function LineChart() {
       }
       return acc;
     }, []);
+    sale.sort((a: any, b: any) => a.month - b.month);
+    if (sale.length < 6) {
+      while (sale.length < 6) {
+        sale.unshift({
+          month: sale[0].month - 1,
+          total: 0,
+        });
+      }
+    }
     return sale;
   }, [ordersArr]);
-
-  // sort the salesByMonth array by month
-  salesByMonth.sort((a: any, b: any) => a.month - b.month);
-
-  console.log(salesByMonth);
-  // check if salesByMonth length is less than 6 months, if yes then fill the missing montsh with the first index of salesByMonth array minus 1 until the length is 6 months long
-  if (salesByMonth.length < 6) {
-    while (salesByMonth.length < 6) {
-      salesByMonth.unshift({
-        month: salesByMonth[0].month - 1,
-        total: 0,
-      });
-    }
-  }
 
   const numberToMonthName = (month: number) => {
     const date = new Date(2022, month, 1);
