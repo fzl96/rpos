@@ -2,7 +2,7 @@
 // import categoryscale from react-chartjs-2
 import { Chart, registerables } from 'chart.js';
 import { format } from 'date-fns';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useOrder } from '../../context/OrderContext';
 
@@ -10,6 +10,7 @@ Chart.register(...registerables);
 
 function LineChart() {
   const { orders } = useOrder();
+  const [loading, setLoading] = useState(true);
 
   const ordersArr = useMemo(() => {
     const arr = orders.map((order) => {
@@ -47,6 +48,7 @@ function LineChart() {
         });
       }
     }
+    setLoading(false);
     return sale;
   }, [ordersArr]);
 
@@ -58,13 +60,17 @@ function LineChart() {
   return (
     <Line
       data={{
-        labels: salesByMonth.map((item: any) => numberToMonthName(item.month)),
+        labels: loading
+          ? ['jan', 'feb', 'mar', 'apr', 'may', 'jun']
+          : [salesByMonth.map((item: any) => numberToMonthName(item.month))],
         datasets: [
           {
             label: 'Sales',
-            data: salesByMonth.map(
-              (item: { month: number; total: number }) => item.total
-            ),
+            data: loading
+              ? [0, 0, 0, 0, 0, 0]
+              : salesByMonth.map(
+                  (item: { month: number; total: number }) => item.total
+                ),
             fill: false,
           },
         ],
