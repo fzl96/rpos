@@ -19,7 +19,7 @@ function Dashboard() {
     setOpen(false);
   }, []);
 
-  // if (loading) return <Loaders />;
+  if (loading) return <> </>;
 
   return (
     <>
