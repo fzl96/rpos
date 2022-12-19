@@ -60,17 +60,15 @@ function LineChart() {
   return (
     <Line
       data={{
-        labels: loading
-          ? ['jan', 'feb', 'mar', 'apr', 'may', 'jun']
-          : [salesByMonth.map((item: any) => numberToMonthName(item.month))],
+        labels: [
+          salesByMonth.map((item: any) => numberToMonthName(item.month)),
+        ],
         datasets: [
           {
             label: 'Sales',
-            data: loading
-              ? [0, 0, 0, 0, 0, 0]
-              : salesByMonth.map(
-                  (item: { month: number; total: number }) => item.total
-                ),
+            data: salesByMonth.map(
+              (item: { month: number; total: number }) => item.total
+            ),
             fill: false,
           },
         ],
